@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fotos usuarios</title>
+	<meta name="viewport" content="width=device-width, initialscale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<script type="text/javascript">
+	var i=0;
+	var misfotos;
+	$(function () {	
+		var onTot = false; 	var onLlum = false; 	
+		$( "#startStop" ).val('0');
+		$( "#contenido" ).hide(); 
+		
+		$( "#startStop" ).on( 'slidestop', function( event ) {
+			var option = $('#startStop :checked').val();
+			if (option == 0) { $( "#contenido" ).hide(); 	 }
+			else {$( "#contenido" ).show();			}
+		});	
+		
+		$('#Pepe').click(function (){ 
+			$.getJSON("pepe.json", function (dades) {
+				if(i!=0){
+					i=0;
+				}
+				misfotos=dades;
+				mostrarfoto(dades,i,"visorfotos");
+			});	
+		});
+		
+		$('#Pepa').click(function (){ 
+			$.getJSON("pepa.json", function (dades) {
+				if(i!=0){
+					i=0;
+				}
+				misfotos=dades;
+				mostrarfoto(dades,i,"visorfotos");
+			
+			});	
+		});
+		
+		$('#Pepito').click(function (){ 
+			$.getJSON("pepito.json", function (dades) {
+				if(i!=0){
+					i=0;
+				}
+				misfotos=dades;
+				mostrarfoto(dades,i,"visorfotos");	
+				
+			});	
+		});
+		$('#siguiente').click(function (){ 
+			if(i<2){
+			i++;
+			mostrarfoto(misfotos,i,"visorfotos");
+			}
+		});
+		$('#anterior').click(function (){ 
+			if(i>0){
+			i--;
+			mostrarfoto(misfotos,i,"visorfotos");
+			}
+		});
+	});
+	
+	function mostrarfoto(array,num,id){
+		var res;
+		res="<img src='"+array[num]+"' width='40%'>";
+		$("#"+id).html(res);
+		
+	}
+	
+	
+	</script>
+  </head>
+  
+<body>
+	 
+	 <div data-role="page" >
+		<div data-role="header" data-theme="b" data-position="fixed"><h1>Selecciona usuarios para ver sus fotos</h1></div>
+		<div data-role="content" >
+			<div id='slider'>
+				<table align="center" border="1"  width= '100%'>
+					<tr><td colspan="2" align=center><h2>Usuarios<h2></td></tr>
+					<tr id = 'rowStartStop' >
+						<td align='center'colspan="2" >  
+							<select name="startStop" id="startStop" data-role="slider">
+								<option value="0">OFF</option>
+								<option value="1">ON</option>
+							</select>
+						</td> 
+					</tr>
+				</table>
+			</div>
+			<div id='contenido'>
+				<table align="center" width= '100%'>
+					<tr>
+						<td><input type="button" name="Pepe" value="Pepe" id="Pepe"/></td>
+						<td><input type="button" name="Pepa" value="Pepa" id="Pepa"/></td>
+						<td><input type="button" name="Pepito" value="Pepito" id="Pepito"/></td>
+					</tr>
+				</table>
+				<div align="center" id='visorfotos'></div>
+				<table align="center" width= '30%'>
+					<tr>
+					<td><input type="button" name="anterior" value="anterior" id="anterior"/></td>
+					<td><input type="button" name="siguiente" value="siguiente" id="siguiente"/></td>
+					</tr>
+			</div>
+				
+		</div>
+	</div>
+
+</body>
+</html>
